@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间与mapper对应且是全路径名称-->
+<mapper namespace="com.zhoushijie.demo.mapper.UserMapper">
+    <!--多条件查询-->
+    <select id="findUserByWhere" parameterType="User" resultMap="userMap">
+        select * from usertable
+        <!--where多条件查询时使用和if标签合作使用-->
+        <where>
+            <!--if标签判断参数是否有值如果有值就执行其下的语句-->
+            <if test="username !=null and username !=''">
+                username=#{username}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertUser" parameterType="user">
+        insert into usertable(id,username,password,sex,phonenumber,userType,rePassword,address,age)
+        values (#{id},#{username},#{password},#{sex},#{phonenumber},#{userType},#{rePassword},
+        #{address},#{age})
+    </insert>
+
+    <select id="selectUser" parameterType="Integer" resultMap="userMap">
+        select * from usertable where id=#{id}
+    </select>
+
+    <update id="updateUser" parameterType="User">
+        update usertable
+        <set>
+            <if test="username!=null and username!=''">
+                username=#{username},
+            </if>
+            <if test="sex!=null and sex!=''">
+                sex=#{sex},
+            </if>
+            <if test="phonenumber!=null and phonenumber!=''">
+                phonenumber=#{phonenumber},
+            </if>
+            <if test="address!=null and address!=''">
+                address=#{address},
+            </if>
+            <if test="userType!=null and userType!=''">
+                userType=#{userType}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <resultMap id="userMap" type="User">
+        <id column="id" property="id"></id>
+        <result column="username" property="username"></result>
+        <result column="password" property="password"></result>
+        <result column="sex" property="sex"></result>
+        <result column="age" property="age"></result>
+        <result column="phonenumber" property="phonenumber"></result>
+        <result column="userType" property="userType"></result>
+        <result column="rePassword" property="rePassword"></result>
+        <result column="address" property="address"></result>
+    </resultMap>
+</mapper>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间与mapper对应且是全路径名称-->
+<mapper namespace="com.zhoushijie.demo.mapper.BillMapper">
+    <!--多条件查询-->
+    <select id="findBillByWhere" parameterType="Bill" resultMap="billMap">
+        select * from billtable
+        <!--where多条件查询时使用和if标签合作使用-->
+        <where>
+            <!--if标签判断参数是否有值如果有值就执行其下的语句-->
+            <if test="goodsName !=null and goodsName !=''">
+                goods_name=#{goodsName}
+            </if>
+            <!--if标签里面的and在多条件查询中多条件使用，单个使用也没问题-->
+            <if test="supplier !=null and supplier !=''">
+                and supplier=#{supplier}
+            </if>
+            <if test="isPayment !=null">
+                and is_payment=#{isPayment}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertBill" parameterType="bill">
+        insert into billtable values(
+        #{billid},
+        #{goodsName},
+        #{supplier},
+        #{billAmount},
+        #{isPayment},
+        #{createTime})
+    </insert>
+
+    <select id="selectBill" parameterType="Integer" resultMap="billMap">
+        select * from billtable where bill_id=#{billid}
+    </select>
+
+    <update id="updateBill" parameterType="Bill">
+        update billtable
+        <set>
+            <if test="goodsName!=null and goodsName!=''">
+                goods_name=#{goodsName},
+            </if>
+            <if test="supplier!=null and supplier!=''">
+                supplier=#{supplier},
+            </if>
+            <if test="isPayment!=null">
+                is_payment=#{isPayment},
+            </if>
+            <if test="billAmount!=null">
+                bill_amount=#{billAmount},
+            </if>
+            <if test="createTime!=null">
+                create_time=#{createTime}
+            </if>
+        </set>
+        where bill_id=#{billid}
+    </update>
+
+    <resultMap id="billMap" type="Bill">
+        <id column="bill_id" property="billid"></id>
+        <result column="goods_name" property="goodsName"></result>
+        <result column="supplier" property="supplier"></result>
+        <result column="bill_amount" property="billAmount"></result>
+        <result column="is_payment" property="isPayment"></result>
+        <result column="create_time" property="createTime"></result>
+    </resultMap>
+
+
+    <select id="f1" parameterType="Bill" resultMap="billMap">
+        select * from billtable
+        <!--where多条件查询时使用和if标签合作使用-->
+        <where>
+            <!--if标签判断参数是否有值如果有值就执行其下的语句-->
+            <if test="goodsName !=null and goodsName !=''">
+                goods_name=#{goodsName}
+            </if>
+            <!--if标签里面的and在多条件查询中多条件使用，单个使用也没问题-->
+            <if test="supplier !=null and supplier !=''">
+                and supplier=#{supplier}
+            </if>
+        </where>
+    </select>
+
+    <select id="f2" parameterType="Bill" resultMap="billMap">
+        select * from billtable
+        <!--where多条件查询时使用和if标签合作使用-->
+        <where>
+            <!--if标签判断参数是否有值如果有值就执行其下的语句-->
+            <if test="goodsName !=null and goodsName !=''">
+                goods_name=#{goodsName}
+            </if>
+            <!--if标签里面的and在多条件查询中多条件使用，单个使用也没问题-->
+
+        </where>
+    </select>
+
+
+</mapper>
