@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--命名空间与mapper对应且是全路径名称-->
+<mapper namespace="com.zhoushijie.demo.mapper.ProviderMapper">
+    <!--多条件查询-->
+    <select id="findProviderByWhere" parameterType="Provider" resultMap="providerMap">
+        select * from providertable
+        <!--where多条件查询时使用和if标签合作使用-->
+        <where>
+            <!--if标签判断参数是否有值如果有值就执行其下的语句-->
+            <if test="supplier !=null and supplier !=''">
+                supplier=#{supplier}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectProvider" parameterType="Integer" resultMap="providerMap">
+        select * from providertable where id=#{id}
+    </select>
+
+    <insert id="insertProvider" parameterType="provider">
+        insert into providertable(id,supplier,linkman,phone,address,fax,describe1,create_date)
+        values (#{id},#{supplier},#{linkman},#{phone},#{address},#{fax},#{describe},#{createDate})
+    </insert>
+
+    <update id="updateProvider" parameterType="Provider">
+        update providertable
+        <set>
+            <if test="supplier!=null and supplier!=''">
+                supplier=#{supplier},
+            </if>
+            <if test="linkman!=null and linkman!=''">
+                linkman=#{linkman},
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone=#{phone},
+            </if>
+            <if test="fax!=null and fax!=''">
+                fax=#{fax},
+            </if>
+            <if test="address!=null and address!=''">
+                address=#{address},
+            </if>
+            <if test="describe!=null and describe!=''">
+                describe1=#{describe}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--&lt;!&ndash;resultMap标签用于组装数据结果集，可以处理“一对一”或者“一对多”的对应关系&ndash;&gt;-->
+    <!--<select id="getProviderDetail" resultMap="providerMap">-->
+        <!--select b_id as bid,-->
+        <!--b.goods_name,-->
+        <!--b.supplier,-->
+        <!--b.bill_amount,-->
+        <!--b.is_payment,-->
+        <!--b.create_time,-->
+        <!--p.id as pid,-->
+        <!--p.supplier as Ssupplier,-->
+        <!--p.linkman,-->
+        <!--p.phone,-->
+        <!--p.fax,-->
+        <!--p.create_date,-->
+        <!--p.address,-->
+        <!--p.describe1,-->
+        <!--p.b_id-->
+        <!--from billtable b inner join providertable p on b.id=p.a_id-->
+    <!--</select>-->
+    <!--&lt;!&ndash;resultMap标签用于组装数据结果集&ndash;&gt;-->
+    <!--&lt;!&ndash;重新封装数据集合&ndash;&gt;-->
+    <!--<resultMap id="providerMap" type="Provider">-->
+        <!--<id column="bid" property="id"></id>-->
+        <!--<result column="title" property="title"></result>-->
+        <!--<result column="content" property="content"></result>-->
+        <!--&lt;!&ndash;collection标签表示一对多的标识&ndash;&gt;-->
+        <!--&lt;!&ndash;ofType标签可以通过关系映射查询出来  Bill是被标签指定映射关系查询的实体类&ndash;&gt;-->
+        <!--<collection property="BillList" ofType="Bill">-->
+            <!--<id column="cid" property="id"></id>-->
+            <!--<result column="Ccontent" property="content"></result>-->
+            <!--<result column="author" property="author"></result>-->
+            <!--<result column="a_id" property="aId"></result>-->
+        <!--</collection>-->
+    <!--</resultMap>-->
+
+    <resultMap id="providerMap" type="Provider">
+    <id column="id" property="id"></id>
+    <result column="supplier" property="supplier"></result>
+    <result column="linkman" property="linkman"></result>
+    <result column="phone" property="phone"></result>
+    <result column="fax" property="fax"></result>
+    <result column="create_date" property="createDate"></result>
+    <result column="address" property="address"></result>
+    <result column="describe1" property="describe"></result>
+</resultMap>
+
+</mapper>

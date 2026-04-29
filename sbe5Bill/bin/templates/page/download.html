@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>文件下载</title></head>
+<body>
+<div style="margin-bottom: 10px">文件下载列表：</div>
+<table>
+    <tr>
+        <td>fanwei.jpg</td>
+        <td><a th:href="@{/download(filename='fanwei.jpg')}">下载文件</a></td>
+    </tr>
+    <tr>
+        <td>one.txt</td>
+        <td><a th:href="@{/download(filename='one.txt')}">下载文件</a></td>
+    </tr>
+    <tr>
+        <td>服务器开发.pdf</td>
+        <td><a th:href="@{/download(filename='服务器开发.pdf')}">下载文件</a></td>
+    </tr>
+</table>
+</body>
+</html>
